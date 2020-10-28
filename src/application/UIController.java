@@ -42,14 +42,21 @@ public class UIController {
     @FXML
     private Button Clear_Button;
 
+    /**
+     * Deposit money when the Deposit button is clicked on the Funds tab
+     * @param event
+     */
     @FXML
     void deposit(ActionEvent event) {
-    	
+    	System.out.println("Deposited");
     }
 
+    /**
+     * Withdraw money when the Withdraw button is clicked on the Funds tab
+     * @param event
+     */
     @FXML
     void withdraw(ActionEvent event) {
-    	
+    	System.out.println("Withdrew");
     }
-
 }

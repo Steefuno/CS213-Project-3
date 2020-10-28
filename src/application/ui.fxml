@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Scene?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
@@ -13,116 +14,121 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox spacing="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
-        <tabs>
-          <Tab text="Open/Close Account">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </Tab>
-          <Tab text="Deposit/Withdraw Funds">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="600.0">
-                     <children>
-                        <HBox alignment="CENTER" prefHeight="120.0" prefWidth="600.0" spacing="5.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <VBox prefWidth="300.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="300.0" spacing="5.0">
-                                       <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="First Name" textAlignment="CENTER" />
-                                          <TextField fx:id="fname_funds" prefWidth="0.0" HBox.hgrow="ALWAYS">
-                                             <HBox.margin>
-                                                <Insets />
-                                             </HBox.margin>
-                                          </TextField>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                    </HBox>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="300.0" spacing="5.0">
-                                       <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name" textAlignment="CENTER" />
-                                          <TextField fx:id="lname_funds" prefWidth="0.0" HBox.hgrow="ALWAYS" />
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="300.0" spacing="5.0">
-                                       <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Amount" textAlignment="CENTER" />
-                                          <TextField fx:id="amount_funds" prefWidth="0.0" HBox.hgrow="ALWAYS" />
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                    </HBox>
-                                 </children>
-                              </VBox>
-                              <VBox prefWidth="300.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <VBox alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="300.0" spacing="5.0">
-                                       <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Account Type" />
-                                          <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
-                                             <children>
-                                                <RadioButton fx:id="checking_funds" mnemonicParsing="false" text="Checking">
-                                                   <toggleGroup>
-                                                      <ToggleGroup fx:id="Funds_Account_Type" />
-                                                   </toggleGroup>
-                                                </RadioButton>
-                                                <RadioButton fx:id="savings_funds" mnemonicParsing="false" text="Savings" toggleGroup="$Funds_Account_Type" />
-                                                <RadioButton fx:id="moneymarket_funds" mnemonicParsing="false" text="Money Market" toggleGroup="$Funds_Account_Type" />
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                       <padding>
-                                          <Insets left="5.0" />
-                                       </padding>
-                                    </VBox>
-                                    <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="300.0" spacing="5.0">
-                                       <children>
-                                          <Button fx:id="withdraw" mnemonicParsing="false" onAction="#withdraw" text="Withdraw" />
-                                          <Button fx:id="deposit_funds" mnemonicParsing="false" onAction="#deposit" text="Deposit" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </VBox>
-                           </children>
-                           <padding>
-                              <Insets left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                        </HBox>
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
-            <Tab text="Accounts Database">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-               </content>
-            </Tab>
-        </tabs>
-      </TabPane>
-      <TextArea fx:id="Output" editable="false" prefWidth="200.0" VBox.vgrow="ALWAYS">
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
-      </TextArea>
-      <HBox alignment="CENTER_RIGHT">
+
+<Scene xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.UIController">
+   <root>
+      <VBox spacing="5.0">
          <children>
-            <Button fx:id="Clear_Button" mnemonicParsing="false" text="Clear" />
+            <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Open/Close Account">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                </Tab>
+                <Tab text="Deposit/Withdraw Funds">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="600.0">
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="120.0" prefWidth="600.0" spacing="5.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <VBox prefWidth="300.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="300.0" spacing="5.0">
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="First Name" textAlignment="CENTER" />
+                                                <TextField fx:id="fname_funds" prefWidth="0.0" HBox.hgrow="ALWAYS">
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
+                                                </TextField>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="300.0" spacing="5.0">
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name" textAlignment="CENTER" />
+                                                <TextField fx:id="lname_funds" prefWidth="0.0" HBox.hgrow="ALWAYS" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="300.0" spacing="5.0">
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Amount" textAlignment="CENTER" />
+                                                <TextField fx:id="amount_funds" prefWidth="0.0" HBox.hgrow="ALWAYS" />
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <VBox prefWidth="300.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <VBox alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="300.0" spacing="5.0">
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Account Type" />
+                                                <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+                                                   <children>
+                                                      <RadioButton fx:id="checking_funds" mnemonicParsing="false" text="Checking">
+                                                         <toggleGroup>
+                                                            <ToggleGroup fx:id="Funds_Account_Type" />
+                                                         </toggleGroup>
+                                                      </RadioButton>
+                                                      <RadioButton fx:id="savings_funds" mnemonicParsing="false" text="Savings" toggleGroup="$Funds_Account_Type" />
+                                                      <RadioButton fx:id="moneymarket_funds" mnemonicParsing="false" text="Money Market" toggleGroup="$Funds_Account_Type" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets left="5.0" />
+                                             </padding>
+                                          </VBox>
+                                          <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="50.0" prefHeight="40.0" prefWidth="300.0" spacing="5.0">
+                                             <children>
+                                                <Button fx:id="withdraw" mnemonicParsing="false" onAction="#withdraw" text="Withdraw" />
+                                                <Button fx:id="deposit_funds" mnemonicParsing="false" onAction="#deposit" text="Deposit" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                  <Tab text="Accounts Database">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                     </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+            <TextArea fx:id="Output" editable="false" prefWidth="200.0" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </TextArea>
+            <HBox alignment="CENTER_RIGHT">
+               <children>
+                  <Button fx:id="Clear_Button" mnemonicParsing="false" text="Clear" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
          </children>
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
-      </HBox>
-   </children>
-   <padding>
-      <Insets bottom="5.0" left="5.0" right="5.0" />
-   </padding>
-</VBox>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" />
+         </padding>
+      </VBox>
+   </root>
+</Scene>
