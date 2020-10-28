@@ -14,7 +14,7 @@ public class Main extends Application {
 			Scene scene = (Scene)fxmlLoader.load();
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Accounts");
+			primaryStage.setTitle("Transaction Manager");
 			
 			UIController controller = fxmlLoader.<UIController>getController();
 			controller.setup();
