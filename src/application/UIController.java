@@ -8,7 +8,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 
 public class UIController {
-
+	static AccountDatabase db;
+	
     @FXML
     private TextField fname_funds;
 
@@ -58,5 +59,9 @@ public class UIController {
     @FXML
     void withdraw(ActionEvent event) {
     	System.out.println("Withdrew");
+    }
+    
+    void setup() {
+    	db = new AccountDatabase();
     }
 }
