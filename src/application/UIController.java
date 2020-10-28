@@ -1,67 +1,89 @@
-package application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 
 public class UIController {
-	static AccountDatabase db;
-	
-    @FXML
-    private TextField fname_funds;
 
     @FXML
-    private TextField lname_funds;
+    private TextField balance;
 
     @FXML
-    private TextField amount_funds;
+    private TextField firstNameOc;
 
     @FXML
-    private RadioButton checking_funds;
+    private TextField lastNameOc;
+
+    @FXML
+    private RadioButton checkingRadioOC;
+
+    @FXML
+    private RadioButton savingRadioOc;
+
+    @FXML
+    private RadioButton moneyMarketRadioOc;
+
+    @FXML
+    private CheckBox directDepositBox;
+
+    @FXML
+    private CheckBox loyalCustomerBox;
+
+    @FXML
+    private Button openAccountButton;
+
+    @FXML
+    private Button closeAcountButton;
+
+    @FXML
+    private TextField month;
+
+    @FXML
+    private TextField day;
+
+    @FXML
+    private TextField year;
 
     @FXML
     private ToggleGroup Funds_Account_Type;
 
     @FXML
-    private RadioButton savings_funds;
-
-    @FXML
-    private RadioButton moneymarket_funds;
-
-    @FXML
-    private Button withdraw;
-
-    @FXML
-    private Button deposit_funds;
-
-    @FXML
     private TextArea Output;
 
     @FXML
-    private Button Clear_Button;
+    private Button Clear_Output;
 
-    /**
-     * Deposit money when the Deposit button is clicked on the Funds tab
-     * @param event
-     */
     @FXML
-    void deposit(ActionEvent event) {
-    	System.out.println("Deposited");
+    void ExportDataBase(ActionEvent event) {
+
     }
 
-    /**
-     * Withdraw money when the Withdraw button is clicked on the Funds tab
-     * @param event
-     */
     @FXML
-    void withdraw(ActionEvent event) {
-    	System.out.println("Withdrew");
+    void clear(ActionEvent event) {
+
     }
-    
-    void setup() {
-    	db = new AccountDatabase();
+
+    @FXML
+    void closeAccount(ActionEvent event) {
+
     }
+
+    @FXML
+    void getBalance(ActionEvent event) {
+
+    }
+
+    @FXML
+    void importDataBase(ActionEvent event) {
+
+    }
+
+    @FXML
+    void openAccount(ActionEvent event) {
+
+    }
+
 }
