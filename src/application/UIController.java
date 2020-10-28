@@ -84,15 +84,6 @@ public class UIController {
 
     @FXML
     private Button Clear_Output;
-
-    /**
-     * Outputs a string on a new line
-     * @param text
-     */
-    void output(String text) { //TODO change system console output to ui console
-    	System.out.println(text);
-    }
-    
     
     /**
      * Deposit money when the Deposit button is clicked on the Funds tab
@@ -213,6 +204,8 @@ public class UIController {
     	
     	priceFormat = new DecimalFormat(priceFormatString);
     	priceFormat.setMinimumFractionDigits(2);
+    	
+    	db.add(new Checking("Steve", "N", 100, 1, 1, 2000, true));
     }
     
     private Account getAccountInFunds() {
@@ -230,11 +223,6 @@ public class UIController {
     	}
     	
     	return null;
-    }
-    
-    @FXML
-    void clear(ActionEvent event) { //TODO
-    	System.out.println("Clearing output");
     }
 
     @FXML
@@ -257,4 +245,20 @@ public class UIController {
 
     }
 
+    /**
+     * Outputs a string on a new line
+     * @param text
+     */
+    void output(String text) {
+    	Output.appendText(text + "\n");
+    }
+    
+    /**
+     * Clears the UI Output
+     * @param event
+     */
+    @FXML
+    void clear(ActionEvent event) {
+    	Output.setText("");
+    }
 }
