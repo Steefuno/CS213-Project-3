@@ -6,9 +6,13 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import java.text.DecimalFormat;
 
+// https://docs.oracle.com/javase/8/javafx/api/toc.htm
 public class UIController {
-	static AccountDatabase db;
+	private static AccountDatabase db;
+	private static String priceFormatString = "$ #.#";
+	private static DecimalFormat priceFormat;
 	
     @FXML
     private TextField fname_funds;
@@ -44,12 +48,63 @@ public class UIController {
     private Button Clear_Button;
 
     /**
+     * Outputs a string on a new line
+     * @param text
+     */
+    void output(String text) { //TODO change system console output to ui console
+    	System.out.println(text);
+    }
+    
+    
+    /**
      * Deposit money when the Deposit button is clicked on the Funds tab
      * @param event
      */
     @FXML
     void deposit(ActionEvent event) {
-    	System.out.println("Deposited");
+    	Account account = this.getAccountInFunds();
+    	double amount;
+    	
+    	// Try to convert inputted amount to a double
+    	try {
+    		amount = Double.parseDouble(amount_funds.getText());
+    	} catch (NumberFormatException e) {
+    		this.output("Amount must be a double!");
+    		return;
+    	}
+    	
+    	// Check if an account type has been selected
+    	if (account == null) {
+        	this.output("An Account Type must be selected!");
+    		return;
+    	}
+    	
+    	// Try to deposit
+    	boolean isDeposited = db.deposit(account, amount);
+    	if (isDeposited == true) {
+    		// Output if deposited
+    		this.output(
+    			String.format(
+    				"Successfully deposited %s to %s Account, %s %s!",
+    				priceFormat.format(amount),
+    				account.getClass().getSimpleName(),
+    				account.getProfile().getFName(),
+    				account.getProfile().getLName()
+    			)
+    		);
+    		return;
+    	} else {
+    		// Output if failed to deposit from invalid account
+    		this.output(
+    			String.format(
+    				"%s Account not found: %s %s.",
+    				account.getClass().getSimpleName(),
+    				account.getProfile().getFName(),
+    				account.getProfile().getLName()
+    			)
+    		);
+    		return;
+    	}
     }
 
     /**
@@ -58,10 +113,81 @@ public class UIController {
      */
     @FXML
     void withdraw(ActionEvent event) {
-    	System.out.println("Withdrew");
+    	Account account = this.getAccountInFunds();
+    	double amount;
+    	
+    	// Try to convert inputted amount to a double
+    	try {
+    		amount = Double.parseDouble(amount_funds.getText());
+    	} catch (NumberFormatException e) {
+    		this.output("Amount must be a double!");
+    		return;
+    	}
+    	
+    	// Check if an account type has been selected
+    	if (account == null) {
+        	this.output("An Account Type must be selected!");
+    		return;
+    	}
+    	
+    	// Try to withdraw
+    	int isWithdrawn = db.withdrawal(account, amount);
+    	if (isWithdrawn == 0) {
+    		// Output if withdrawn
+    		this.output(
+    			String.format(
+    				"Successfully withdrew %s to %s Account, %s %s!",
+    				priceFormat.format(amount),
+    				account.getClass().getSimpleName(),
+    				account.getProfile().getFName(),
+    				account.getProfile().getLName()
+    			)
+    		);
+    		return;
+    	} else if (isWithdrawn == 1) {
+    		// Output if failed to withdraw from not enough balance
+    		this.output(
+    			String.format(
+    				"%s Account, %s %s, does not have enough balance.",
+    				account.getClass().getSimpleName(),
+    				account.getProfile().getFName(),
+    				account.getProfile().getLName()
+    			)
+    		);
+    		return;
+    	} else if (isWithdrawn == -1) {
+    		// Output if failed to withdraw from invalid account
+    		this.output(
+        			String.format(
+        				"%s Account not found: %s %s.",
+        				account.getClass().getSimpleName(),
+        				account.getProfile().getFName(),
+        				account.getProfile().getLName()
+        			)
+        		);
+        	return;
+    	}
     }
     
     void setup() {
     	db = new AccountDatabase();
+    	
+    	priceFormat = new DecimalFormat(priceFormatString);
+    	priceFormat.setMinimumFractionDigits(2);
+    }
+    
+    private Account getAccountInFunds() {
+    	String fname = fname_funds.getText();
+    	String lname = lname_funds.getText();
+    	
+    	if (checking_funds.isSelected()) {
+    		return (Account)new Checking(fname, lname);
+    	} else if (savings_funds.isSelected()) {
+    		return (Account)new Savings(fname, lname);
+    	} else if (moneymarket_funds.isSelected()) {
+    		return (Account)new MoneyMarket(fname, lname);
+    	}
+    	
+    	return null;
     }
 }

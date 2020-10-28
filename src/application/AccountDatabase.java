@@ -231,7 +231,7 @@ public class AccountDatabase {
 	 * Updates an account's balance for a new month with interest and the monthly fee
 	 * @param accountIndex	the index of the account to update in accounts
 	 */
-	private void updateAccount(int accountIndex) {
+	private void updateAccount(int accountIndex) { //TODO remove output
 		Account account = accounts[accountIndex];
 		double interest = account.monthlyInterest();
 		double fee = account.monthlyFee();
@@ -295,7 +295,7 @@ public class AccountDatabase {
 	/**
 	 * Outputs all of the accounts without updating
 	 */
-	public void printAccounts() {
+	public void printAccounts() { //TODO remove output
 		if (size == 0) {
 			return;
 		}
