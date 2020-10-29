@@ -15,9 +15,23 @@ import java.text.DecimalFormat;
 
 // https://docs.oracle.com/javase/8/javafx/api/toc.htm
 public class UIController {
-	private static AccountDatabase db;
-	private static String priceFormatString = "$ #.#";
-	private static DecimalFormat priceFormat;
+	private AccountDatabase db;
+	private String priceFormatString = "$ #.#";
+	private DecimalFormat priceFormat;
+
+	/**
+	 * Method called by Main.java to initialize variables
+	 */
+    void setup() {
+    	db = new AccountDatabase();
+    	
+    	priceFormat = new DecimalFormat(priceFormatString);
+    	priceFormat.setMinimumFractionDigits(2);
+    	
+    	//TODO remove temp account for testing
+    	db.add(new Checking("Steve", "N", 100, 1, 1, 2000, true));
+    	db.add(new Checking("Michael", "Q", 100, 1, 1, 2000, true));
+    }
 	
     @FXML
     private TextField balance;
@@ -98,13 +112,13 @@ public class UIController {
     	try {
     		amount = Double.parseDouble(amount_funds.getText());
     	} catch (NumberFormatException e) {
-    		this.output("Amount must be a double!");
+    		this.output("Amount must be a double!\n");
     		return;
     	}
     	
     	// Check if an account type has been selected
     	if (account == null) {
-        	this.output("An Account Type must be selected!");
+        	this.output("An Account Type must be selected!\n");
     		return;
     	}
     	
@@ -114,7 +128,7 @@ public class UIController {
     		// Output if deposited
     		this.output(
     			String.format(
-    				"Successfully deposited %s to %s Account, %s %s!",
+    				"Successfully deposited %s to %s Account, %s %s!\n",
     				priceFormat.format(amount),
     				account.getClass().getSimpleName(),
     				account.getProfile().getFName(),
@@ -126,7 +140,7 @@ public class UIController {
     		// Output if failed to deposit from invalid account
     		this.output(
     			String.format(
-    				"%s Account not found: %s %s.",
+    				"%s Account not found: %s %s.\n",
     				account.getClass().getSimpleName(),
     				account.getProfile().getFName(),
     				account.getProfile().getLName()
@@ -134,11 +148,6 @@ public class UIController {
     		);
     		return;
     	}
-    }
-    
-    @FXML
-    void ExportDataBase(ActionEvent event) {
-    	
     }
 
     @FXML
@@ -150,13 +159,13 @@ public class UIController {
     	try {
     		amount = Double.parseDouble(amount_funds.getText());
     	} catch (NumberFormatException e) {
-    		this.output("Amount must be a double!");
+    		this.output("Amount must be a double!\n");
     		return;
     	}
     	
     	// Check if an account type has been selected
     	if (account == null) {
-        	this.output("An Account Type must be selected!");
+        	this.output("An Account Type must be selected!\n");
     		return;
     	}
     	
@@ -166,7 +175,7 @@ public class UIController {
     		// Output if withdrawn
     		this.output(
     			String.format(
-    				"Successfully withdrew %s to %s Account, %s %s!",
+    				"Successfully withdrew %s to %s Account, %s %s!\n",
     				priceFormat.format(amount),
     				account.getClass().getSimpleName(),
     				account.getProfile().getFName(),
@@ -178,7 +187,7 @@ public class UIController {
     		// Output if failed to withdraw from not enough balance
     		this.output(
     			String.format(
-    				"%s Account, %s %s, does not have enough balance.",
+    				"%s Account, %s %s, does not have enough balance.\n",
     				account.getClass().getSimpleName(),
     				account.getProfile().getFName(),
     				account.getProfile().getLName()
@@ -189,7 +198,7 @@ public class UIController {
     		// Output if failed to withdraw from invalid account
     		this.output(
         			String.format(
-        				"%s Account not found: %s %s.",
+        				"%s Account not found: %s %s.\n",
         				account.getClass().getSimpleName(),
         				account.getProfile().getFName(),
         				account.getProfile().getLName()
@@ -199,13 +208,9 @@ public class UIController {
     	}
     }
     
-    void setup() {
-    	db = new AccountDatabase();
+    @FXML
+    void ExportDataBase(ActionEvent event) {
     	
-    	priceFormat = new DecimalFormat(priceFormatString);
-    	priceFormat.setMinimumFractionDigits(2);
-    	
-    	db.add(new Checking("Steve", "N", 100, 1, 1, 2000, true));
     }
     
     private Account getAccountInFunds() {
@@ -245,12 +250,27 @@ public class UIController {
 
     }
 
+    @FXML
+    void PrintAccountByName(ActionEvent event) {
+    	output(db.printByLastName());
+    }
+
+    @FXML
+    void PrintAccounts(ActionEvent event) {
+    	output(db.printAccounts());
+    }
+
+    @FXML
+    void PrintAccountsByDate(ActionEvent event) {
+    	output(db.printByDateOpen());
+    }
+
     /**
      * Outputs a string on a new line
      * @param text
      */
     void output(String text) {
-    	Output.appendText(text + "\n");
+    	Output.appendText(text);
     }
     
     /**

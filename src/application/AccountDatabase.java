@@ -230,8 +230,9 @@ public class AccountDatabase {
 	/**
 	 * Updates an account's balance for a new month with interest and the monthly fee
 	 * @param accountIndex	the index of the account to update in accounts
+	 * @return				the string that represents this update for the output
 	 */
-	private void updateAccount(int accountIndex) { //TODO remove output
+	private String updateAccount(int accountIndex) {
 		Account account = accounts[accountIndex];
 		double interest = account.monthlyInterest();
 		double fee = account.monthlyFee();
@@ -241,71 +242,72 @@ public class AccountDatabase {
 		DecimalFormat formattedPrice = new DecimalFormat(priceFormat);
 		formattedPrice.setMinimumFractionDigits(2);
 		
-		System.out.println(
-			String.format(
-				"\n%s\n-interest: %s\n-fee: %s\n-new balance: %s",
-				account,
-				formattedPrice.format(interest),
-				formattedPrice.format(fee),
-				formattedPrice.format(newBalance)
-			)
+		String result = String.format(
+			"\n%s\n-interest: %s\n-fee: %s\n-new balance: %s",
+			account,
+			formattedPrice.format(interest),
+			formattedPrice.format(fee),
+			formattedPrice.format(newBalance)
 		);
 		
 		account.credit(interest);
 		account.debit(fee);
-		return;
+		return result;
 	}
 	
 	/**
 	 * Sorts accounts by date opened, updates all the accounts, then outputs them
+	 * @return	a string to output to the UI
 	 */
-	public void printByDateOpen() {
+	public String printByDateOpen() {
 		if (size == 0) {
-			return;
+			return null;
 		}
 		
 		sortByDateOpen();
 		
-		
+		String result = "";
 		for (int i = 0; i < this.size; i++) {
-			updateAccount(i);
+			result += updateAccount(i) + "\n";
 		}
 		
-		return;
+		return result;
 	}
 
 	/**
 	 * Sorts accounts by last name, updates all the accounts, then outputs them
+	 * @return	a string to output to the UI
 	 */
-	public void printByLastName() {
+	public String printByLastName() {
 		if (size == 0) {
-			return;
+			return null;
 		}
 		
 		sortByLastName();
 		
-		
+		String result = "";
 		for (int i = 0; i < this.size; i++) {
-			updateAccount(i);
+			result += updateAccount(i) + "\n";
 		}
 		
-		return;
+		return result;
 	}
 
 	/**
-	 * Outputs all of the accounts without updating
+	 * Returns a string of all the accounts
+	 * @return	a string to output to the UI
 	 */
-	public void printAccounts() { //TODO remove output
+	public String printAccounts() {
 		if (size == 0) {
-			return;
+			return null;
 		}
 		
-		
+		String result = "";
 		for (int i = 0; i < this.size; i++) {
-			System.out.println(accounts[i]);
+			result += accounts[i].toString() + "\n";
 		}
 		
-		return;
+		return result;
 	}
 	
 	/**
