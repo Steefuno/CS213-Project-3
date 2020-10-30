@@ -511,7 +511,7 @@ public class UIController {
         if(isValidDate(date)){
             monthDate = Integer.parseInt(date.substring(0,2));
             dayDate = Integer.parseInt(date.substring(3,5));
-            yearDate = Integer.parseInt(date.substring(7,9));
+            yearDate = Integer.parseInt(date.substring(6,10));
         }
         else{
             this.output("Not a valid Date!\n");
