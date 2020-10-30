@@ -105,20 +105,21 @@ public class UIController {
      */
     @FXML
     void deposit(ActionEvent event) {
-    	Account account = this.getAccountInFunds();
+    	Object getAccountResult = this.getAccountInFunds();
     	double amount;
+    	
+    	// Check if an account type has been selected
+    	if (getAccountResult instanceof String) {
+        	this.output((String)getAccountResult);
+    		return;
+    	}
+    	Account account = (Account)getAccountResult;
     	
     	// Try to convert inputted amount to a double
     	try {
     		amount = Double.parseDouble(amount_funds.getText());
     	} catch (NumberFormatException e) {
     		this.output("Amount must be a double!\n");
-    		return;
-    	}
-    	
-    	// Check if an account type has been selected
-    	if (account == null) {
-        	this.output("An Account Type must be selected!\n");
     		return;
     	}
     	
@@ -152,20 +153,21 @@ public class UIController {
 
     @FXML
     void withdraw(ActionEvent event) {
-    	Account account = this.getAccountInFunds();
+    	Object getAccountResult = this.getAccountInFunds();
     	double amount;
+    	
+    	// Check if an account type has been selected
+    	if (getAccountResult instanceof String) {
+        	this.output((String)getAccountResult);
+    		return;
+    	}
+    	Account account = (Account)getAccountResult;
     	
     	// Try to convert inputted amount to a double
     	try {
     		amount = Double.parseDouble(amount_funds.getText());
     	} catch (NumberFormatException e) {
     		this.output("Amount must be a double!\n");
-    		return;
-    	}
-    	
-    	// Check if an account type has been selected
-    	if (account == null) {
-        	this.output("An Account Type must be selected!\n");
     		return;
     	}
     	
@@ -213,21 +215,28 @@ public class UIController {
     	
     }
     
-    private Account getAccountInFunds() {
+    /**
+     * Gets an account on the Funds tab given the inputs
+     * @return	either a template account or a string with the error
+     */
+    private Object getAccountInFunds() {
     	String fname = fname_funds.getText();
     	String lname = lname_funds.getText();
+    	RadioButton selected = (RadioButton)Funds_Account_Type.getSelectedToggle();
     	
-    	//TODO use ToggleGroup instead of spamming isSelected()
+    	if (fname.length() == 0 || lname.length() == 0) {
+    		return "Must input a first and last name!\n";
+    	}
     	
-    	if (checking_funds.isSelected()) {
+    	if (selected == checking_funds) {
     		return (Account)new Checking(fname, lname);
-    	} else if (savings_funds.isSelected()) {
+    	} else if (selected == savings_funds) {
     		return (Account)new Savings(fname, lname);
-    	} else if (moneymarket_funds.isSelected()) {
+    	} else if (selected == moneymarket_funds) {
     		return (Account)new MoneyMarket(fname, lname);
     	}
     	
-    	return null;
+    	return "Must select an account type!\n";
     }
 
     @FXML
