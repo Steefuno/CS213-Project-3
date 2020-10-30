@@ -1,6 +1,7 @@
 package application;
 
-import java.io.File;
+import java.io.*;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,9 +13,10 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.FileNotFoundException;
+import javax.swing.*;
 import java.util.Scanner;
 import java.text.DecimalFormat;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -284,7 +286,27 @@ public class UIController {
 
     @FXML
     void ExportDataBase(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        Stage primaryStage = new Stage();
 
+        fileChooser.setTitle("Save File");
+        //adds .txt extension to all text files
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        File database = fileChooser.showSaveDialog(primaryStage);
+        saveTextToFile(db.printAccounts(),database);
+    }
+    private void saveTextToFile(String content, File file){
+        try {
+            PrintWriter writer;
+            writer = new PrintWriter(file);
+            writer.println(content);
+            this.output("Export successful");
+            writer.close();
+        } catch (IOException ex) {
+            this.output("Cannot output file");
+        }
     }
     /**
      * Gets an account on the Funds tab given the inputs
