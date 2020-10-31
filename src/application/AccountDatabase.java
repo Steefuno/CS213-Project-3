@@ -261,7 +261,7 @@ public class AccountDatabase {
 	 */
 	public String printByDateOpen() {
 		if (size == 0) {
-			return null;
+			return "Database is empty.\n";
 		}
 		
 		sortByDateOpen();
@@ -280,7 +280,7 @@ public class AccountDatabase {
 	 */
 	public String printByLastName() {
 		if (size == 0) {
-			return null;
+			return "Database is empty.\n";
 		}
 		
 		sortByLastName();
@@ -299,7 +299,7 @@ public class AccountDatabase {
 	 */
 	public String printAccounts() {
 		if (size == 0) {
-			return null;
+			return "Database is empty.\n";
 		}
 		
 		String result = "";
