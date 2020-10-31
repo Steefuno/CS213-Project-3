@@ -102,6 +102,26 @@ public class UIController {
     @FXML
     private Button Clear_Output;
 
+
+    @FXML
+    void checkingOcSelected(ActionEvent event) {
+        loyalCustomerBox.setDisable(true);
+        directDepositBox.setDisable(false);
+    }
+
+    @FXML
+    void savingsOcSelected(ActionEvent event) {
+        directDepositBox.setDisable(true);
+        loyalCustomerBox.setDisable(false);
+    }
+
+    @FXML
+    void moneyMarkerOcSelected(ActionEvent event) {
+        directDepositBox.setDisable(true);
+        loyalCustomerBox.setDisable(true);
+    }
+
+
     private boolean checkNameInOC(String name) {
         Pattern pattern = Pattern.compile("^[a-zA-Z]+$");
         Matcher matcher = pattern.matcher(name);
@@ -295,7 +315,7 @@ public class UIController {
         fileChooser.getExtensionFilters().add(extFilter);
 
         File database = fileChooser.showSaveDialog(primaryStage);
-        saveTextToFile(db.printAccounts(),database);
+        saveTextToFile(db.printAccountsForExport(),database);
     }
     private void saveTextToFile(String content, File file){
         try {
@@ -452,49 +472,46 @@ public class UIController {
             File myObj = new File(database.getPath());
             Scanner sc = new Scanner(myObj);
 
-            sc.useDelimiter(",");
-            while(sc.hasNext()){
-                String accountType = sc.next();
-                System.out.println("type: " + accountType);
-                if(accountType.contains("S")){
-                    String firstName = sc.next();
-                    System.out.println(firstName);
-                    String lastName = sc.next();
-                    System.out.println(lastName);
-                    Double balance = Double.parseDouble(sc.next());
-                    System.out.println(balance);
-                    String[] date = sc.next().split("/", -2);
-                    System.out.println(date);
-                    boolean loyalCustomer = Boolean.parseBoolean(sc.next());
-                    System.out.println(loyalCustomer);
+
+            while(sc.hasNextLine()){
+                String lineRead = sc.nextLine();
+                String[] accountInputs = lineRead.split(",",-2);
+
+                if(accountInputs[0].contains("S")){
+                    String firstName = accountInputs[1];
+                    String lastName = accountInputs[2];
+                    Double balance = Double.parseDouble(accountInputs[3]);
+                    String[] date = accountInputs[4].split("/", -2);
+                    boolean loyalCustomer = Boolean.parseBoolean(accountInputs[5]);
 
 
                     Savings savingsAccount = new Savings(firstName, lastName, balance, Integer.parseInt(date[0]),
                             Integer.parseInt(date[1]), Integer.parseInt(date[2]), loyalCustomer);
                     db.add(savingsAccount);
                 }
-                else if(accountType.contains("C")){
-                    String firstName = sc.next();
-                    String lastName = sc.next();
-                    Double balance = Double.parseDouble(sc.next());
-                    String[] date = sc.next().split("/", -2);
-                    boolean directDeposit = Boolean.parseBoolean(sc.next());
+                else if(accountInputs[0].contains("C")){
+                    String firstName = accountInputs[1];
+                    String lastName = accountInputs[2];
+                    Double balance = Double.parseDouble(accountInputs[3]);
+                    String[] date = accountInputs[4].split("/", -2);
+                    boolean directDeposit = Boolean.parseBoolean(accountInputs[5]);
+
 
                     Checking checkingAccount = new Checking(firstName, lastName, balance, Integer.parseInt(date[0]),
                             Integer.parseInt(date[1]), Integer.parseInt(date[2]), directDeposit);
                     db.add(checkingAccount);
                 }
                 else{
-                    String firstName = sc.next();
-                    String lastName = sc.next();
-                    Double balance = Double.parseDouble(sc.next());
-                    String[] date = sc.next().split("/", -2);
+                    String firstName = accountInputs[1];
+                    String lastName = accountInputs[2];
+                    Double balance = Double.parseDouble(accountInputs[3]);
+                    String[] date = accountInputs[4].split("/", -2);
+
 
                     MoneyMarket moneyMarket = new MoneyMarket(firstName, lastName, balance, Integer.parseInt(date[0]),
                             Integer.parseInt(date[1]), Integer.parseInt(date[2]));
                     db.add(moneyMarket);
                 }
-                sc.nextLine();
             }
             this.output("Import completed\n");
         } catch (FileNotFoundException e) {
@@ -549,6 +566,7 @@ public class UIController {
             this.output("Amount must be entered and be a double!\n");
             return;
         }
+
         //gui button for checking
         if(checkingRadioOC.isSelected()){
             if(directDepositBox.isSelected()){
