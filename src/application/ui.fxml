@@ -66,11 +66,10 @@
                                                         <Insets right="10.0" />
                                                     </GridPane.margin>
                                                 </TextField>
-                                                <RadioButton fx:id="checkingRadioOC" mnemonicParsing="false" text="Checking" GridPane.columnIndex="2" toggleGroup="$accountTypeOc">
                                                 <toggleGroup>
                                                     <ToggleGroup fx:id="accountTypeOc" />
                                                 </toggleGroup>
-                                                        </RadioButton>
+                                                <RadioButton fx:id="checkingRadioOC" mnemonicParsing="false" text="Checking" GridPane.columnIndex="2" toggleGroup="$accountTypeOc"/>
                                                 <RadioButton fx:id="savingRadioOc" mnemonicParsing="false" text="Savings" GridPane.columnIndex="2" GridPane.rowIndex="1" toggleGroup="$accountTypeOc" />
                                                 <RadioButton fx:id="moneyMarketRadioOc" mnemonicParsing="false" text="Money Market" GridPane.columnIndex="2" GridPane.rowIndex="2" toggleGroup="$accountTypeOc" />
                                                 <CheckBox fx:id="directDepositBox" mnemonicParsing="false" text="direct deposit" GridPane.columnIndex="3" />
