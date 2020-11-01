@@ -102,26 +102,40 @@ public class UIController {
     @FXML
     private Button Clear_Output;
 
-
+    /**
+     * disables loyalCustomerBox when checking button is clicked
+     * @param event
+     */
     @FXML
     void checkingOcSelected(ActionEvent event) {
         loyalCustomerBox.setDisable(true);
         directDepositBox.setDisable(false);
     }
 
+    /**
+     * disables directDepositBox when saving button is clicked
+     * @param event
+     */
     @FXML
     void savingsOcSelected(ActionEvent event) {
         directDepositBox.setDisable(true);
         loyalCustomerBox.setDisable(false);
     }
-
+    /**
+     * disables loyalCustomerBox and directDepositBox when moneyMarket button is clicked
+     * @param event
+     */
     @FXML
     void moneyMarkerOcSelected(ActionEvent event) {
         directDepositBox.setDisable(true);
         loyalCustomerBox.setDisable(true);
     }
 
-
+    /**
+     * Checks input of checking names for invalid numbers and symbols
+     * @param name
+     * @return boolean true if name is a valid integer for date, otherwise false
+     */
     private boolean checkNameInOC(String name) {
         Pattern pattern = Pattern.compile("^[a-zA-Z]+$");
         Matcher matcher = pattern.matcher(name);
@@ -133,6 +147,11 @@ public class UIController {
         }
     }
 
+    /**
+     * Checks input of date for invalid dates
+     * @param date
+     * @return boolean true if input is a valid date and format, otherwise false
+     */
     private boolean isValidDate(String date) {
         boolean isValid = false;
         int leapYearDay = 29;
@@ -183,6 +202,11 @@ public class UIController {
         }
     }
 
+    /**
+     * Checks input of date for invalid numbers
+     * @param date
+     * @return boolean true if date input is a valid integer for date, otherwise false
+     */
     private boolean isValidInteger(String date) {
         try {
             Integer.parseInt(date);
@@ -304,6 +328,11 @@ public class UIController {
         }
     }
 
+    /**
+     * Exports the current database to a chosen directory in a given format when export is chosen
+     * Format Account Type first initial,first name,last name,balance,date,and optional boolean value
+     * @param event
+     */
     @FXML
     void ExportDataBase(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -317,6 +346,10 @@ public class UIController {
         File database = fileChooser.showSaveDialog(primaryStage);
         saveTextToFile(db.printAccountsForExport(),database);
     }
+    /**
+     * Saves the text from the database to a file
+     * @param content,file Takes the strings in the database and file location
+     */
     private void saveTextToFile(String content, File file){
         try {
             PrintWriter writer;
@@ -352,6 +385,10 @@ public class UIController {
         return "Must select an account type!\n";
     }
 
+    /**
+     * Closes account in database when the closed account button is clicked
+     * @param event
+     */
     @FXML
     void closeAccount(ActionEvent event) { //TODO
 
@@ -459,7 +496,11 @@ public class UIController {
         }
     }
 
-
+    /**
+     * Imports a text file to the database in a given format when import is chosen
+     * Format Account Type first initial,first name,last name,balance,date,and optional boolean value
+     * @param event
+     */
     @FXML
     void importDataBase(ActionEvent event) { //TODO
         FileChooser fileChooser = new FileChooser();
@@ -520,6 +561,10 @@ public class UIController {
         }
     }
 
+    /**
+     * Opens an account in a database when the opened account button is clicked
+     * @param event
+     */
     @FXML
     void openAccount(ActionEvent event) { //TODO
 
@@ -567,7 +612,7 @@ public class UIController {
             return;
         }
 
-        //gui button for checking
+        //gui button conditon for checking, saving, and moneymarket
         if(checkingRadioOC.isSelected()){
             if(directDepositBox.isSelected()){
                 Checking checkingAccount = new Checking(fName, lName, amount, monthDate, dayDate, yearDate, true);
@@ -632,7 +677,7 @@ public class UIController {
                 Savings savingsAccount = new Savings(fName, lName, amount, monthDate, dayDate, yearDate, true);
                 boolean isPresent = db.add(savingsAccount);
 
-                if (isPresent){
+                if(isPresent){
                     this.output(
                             String.format(
                                     "%s Account, %s %s, has been added.\n",
