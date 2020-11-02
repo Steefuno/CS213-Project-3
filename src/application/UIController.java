@@ -17,8 +17,7 @@ import javax.swing.*;
 import java.util.Scanner;
 import java.text.DecimalFormat;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 // https://docs.oracle.com/javase/8/javafx/api/toc.htm
 public class UIController {
@@ -53,9 +52,6 @@ public class UIController {
 
     @FXML
     private RadioButton moneyMarketRadioOc;
-
-    @FXML
-    private ToggleGroup accountTypeOc;
 
     @FXML
     private CheckBox directDepositBox;
@@ -140,14 +136,15 @@ public class UIController {
      * @return boolean true if name is a valid integer for date, otherwise false
      */
     private boolean checkNameInOC(String name) {
-        Pattern pattern = Pattern.compile("^[a-zA-Z]+$");
-        Matcher matcher = pattern.matcher(name);
-        if(matcher.matches()){
-            return true;
+        name = name.toLowerCase();
+        char[] letterArray = name.toCharArray();
+        for (int i = 0; i < letterArray.length; i++) {
+            char letter = letterArray[i];
+            if (!(letter >= 'a' && letter <= 'z')) {
+                return false;
+            }
         }
-        else{
-            return false;
-        }
+        return true;
     }
 
     /**
@@ -156,9 +153,12 @@ public class UIController {
      * @return boolean true if input is a valid date and format, otherwise false
      */
     private boolean isValidDate(String date) {
-        boolean isValid = false;
         int leapYearDay = 29;
         int leapYearDivisor = 4;
+        //length of inputs
+        int lengthOfDayInput = 2;
+        int lengthOfYearInput = 4;
+        int lengthOfMonthInput = 2;
 
         //special case months
         int september = 9;
@@ -174,10 +174,17 @@ public class UIController {
 
         //parse date for special cases
         String[] numbers = date.split("/", 3);
+        if(numbers[0].length() > lengthOfMonthInput || numbers[1].length() > lengthOfDayInput
+                || numbers[2].length() > lengthOfYearInput){
+            return false;
+        }
         int month = Integer.parseInt(numbers[0]);
         int day = Integer.parseInt(numbers[1]);
         int year = Integer.parseInt(numbers[2]);
 
+        if(month > 12 || day > 31 || month < 1||day < 1){
+            return false;
+        }
 
         //handling leap years
         if (year % leapYearDivisor == 0 && month == february && day == leapYearDay) {
@@ -191,19 +198,8 @@ public class UIController {
         else if (month == february && (day == twentyNine || day == thirty || day == thirtyFirst)) {
             return false;
         }
-        //other date inputs that are not special cases
-        else {
-            Pattern pattern = Pattern.compile("^((((0[13578])|([13578])|(1[02]))[\\/](([1-9])|([0-2][0-9])|(3[01])))" +
-                    "|(((0[469])|([469])|(11))[\\/](([1-9])|([0-2][0-9])|(30)))|((2|02)[\\/](([1-9])" +
-                    "|([0-2][0-9]))))[\\/]\\d{4}$|^\\d{4}$");
-            Matcher matcher = pattern.matcher(date);
-            isValid = matcher.matches();
-
-            if (isValid) {
-                return true;
-            } else {
-                return false;
-            }
+        else{
+            return true;
         }
     }
 
