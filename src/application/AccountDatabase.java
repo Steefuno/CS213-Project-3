@@ -311,7 +311,7 @@ public class AccountDatabase {
     }
     /**
      * Returns a string of all the accounts in the format for export
-     * Format Account Type first letter,first name, last name, balance, date, and optional boolean value
+     * Format Account Type first letter,first name, last name, balance, date, and boolean or int value
      * @return	a string that is to be used for export to a file
      */
     public String printAccountsForExport() {
