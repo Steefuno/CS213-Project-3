@@ -352,7 +352,9 @@ public class AccountDatabase {
                 }
             }
             else{
-                result += typeOfAccount.substring(0, 1) + this.accounts[i].toStringExport() + "\n";
+                String[] array = this.accounts[i].toString().split("\\*",-2);
+                String withdrawals = "," + array[array.length-2].substring(0,1);
+                result += typeOfAccount.substring(0, 1) + this.accounts[i].toStringExport() + withdrawals + "\n";
             }
         }
 
