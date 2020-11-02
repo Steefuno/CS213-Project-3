@@ -190,7 +190,9 @@ public class UIController {
         }
         //other date inputs that are not special cases
         else {
-            Pattern pattern = Pattern.compile("^(0[1-9]|1[0-2])/(0[1-9]|[12]\\d|3[01])/[12]\\d{3}$");
+            Pattern pattern = Pattern.compile("^((((0[13578])|([13578])|(1[02]))[\\/](([1-9])|([0-2][0-9])|(3[01])))" +
+                    "|(((0[469])|([469])|(11))[\\/](([1-9])|([0-2][0-9])|(30)))|((2|02)[\\/](([1-9])" +
+                    "|([0-2][0-9]))))[\\/]\\d{4}$|^\\d{4}$");
             Matcher matcher = pattern.matcher(date);
             isValid = matcher.matches();
 
@@ -204,12 +206,41 @@ public class UIController {
 
     /**
      * Checks input of date for invalid numbers
-     * @param date
-     * @return boolean true if date input is a valid integer for date, otherwise false
+     * @param input
+     * @return boolean true if date input is a valid integer, otherwise false
      */
-    private boolean isValidInteger(String date) {
+    private boolean isValidInteger(String input) {
         try {
-            Integer.parseInt(date);
+            Integer.parseInt(input);
+            return true;
+        }
+        catch(NumberFormatException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Checks input of date for invalid numbers
+     * @param input
+     * @return boolean true if number input is a valid double, otherwise false
+     */
+    private boolean isValidDouble(String input) {
+        try {
+            Double.parseDouble(input);
+            return true;
+        }
+        catch(NumberFormatException e) {
+            return false;
+        }
+    }
+    /**
+     * Checks input of date for invalid numbers
+     * @param input
+     * @return boolean true if number input is a valid double, otherwise false
+     */
+    private boolean isValidBoolean(String input) {
+        try {
+            Boolean.parseBoolean(input);
             return true;
         }
         catch(NumberFormatException e) {
@@ -503,6 +534,7 @@ public class UIController {
      */
     @FXML
     void importDataBase(ActionEvent event) { //TODO
+        int i = 0;
         FileChooser fileChooser = new FileChooser();
         Stage primaryStage = new Stage();
 
@@ -517,30 +549,85 @@ public class UIController {
             while(sc.hasNextLine()){
                 String lineRead = sc.nextLine();
                 String[] accountInputs = lineRead.split(",",-2);
+                //checks if input length is right
+                if(accountInputs.length != 6){
+                    this.output("wrong input size format\n");
+                    return;
+                }
+                //checks if format of inputs are right
+                if(accountInputs[0].length() > 1 || checkNameInOC(accountInputs[0]) == false){
+                    this.output("wrong input length format\n");
+                    return;
+                }
+
+                if(checkNameInOC(accountInputs[1]) == false){
+                    this.output("wrong input name format\n");
+                    return;
+                }
+
+                if(checkNameInOC(accountInputs[2]) == false){
+                    this.output("wrong input name format\n");
+                    return;
+                }
+
+                if(isValidDouble(accountInputs[3]) == false){
+                    this.output("wrong input double format\n");
+                    return;
+                }
+
+                if(isValidDate(accountInputs[4]) == false){
+                    System.out.println(i);
+                    i++;
+                    this.output("wrong input date format\n");
+                    return;
+                }
 
                 if(accountInputs[0].contains("S")){
+                    if(isValidBoolean(accountInputs[5]) == false){
+                        this.output("wrong input boolean format\n");
+                        return;
+                    }
                     String firstName = accountInputs[1];
                     String lastName = accountInputs[2];
                     Double balance = Double.parseDouble(accountInputs[3]);
                     String[] date = accountInputs[4].split("/", -2);
+
+                    if(isValidInteger(date[0]) == false || isValidInteger(date[1]) == false || isValidInteger(date[2]) == false){
+                        this.output("wrong input integer format\n");
+                        return;
+                    }
                     boolean loyalCustomer = Boolean.parseBoolean(accountInputs[5]);
 
 
-                    Savings savingsAccount = new Savings(firstName, lastName, balance, Integer.parseInt(date[0]),
-                            Integer.parseInt(date[1]), Integer.parseInt(date[2]), loyalCustomer);
-                    db.add(savingsAccount);
+                    Savings savingsAccount = new Savings(firstName, lastName, balance, Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), loyalCustomer);
+                    boolean isPresent = db.add(savingsAccount);
+                    if(isPresent == false){
+                        this.output("Warning some accounts already in database and have not been added\n");
+                    }
                 }
                 else if(accountInputs[0].contains("C")){
+                    if(isValidBoolean(accountInputs[5]) == false){
+                        this.output("wrong input boolean format\n");
+                        return;
+                    }
                     String firstName = accountInputs[1];
                     String lastName = accountInputs[2];
                     Double balance = Double.parseDouble(accountInputs[3]);
                     String[] date = accountInputs[4].split("/", -2);
+                    if(isValidInteger(date[0]) == false || isValidInteger(date[1]) == false || isValidInteger(date[2]) == false){
+                        this.output("wrong input integer format\n");
+                        return;
+                    }
+
                     boolean directDeposit = Boolean.parseBoolean(accountInputs[5]);
 
 
                     Checking checkingAccount = new Checking(firstName, lastName, balance, Integer.parseInt(date[0]),
                             Integer.parseInt(date[1]), Integer.parseInt(date[2]), directDeposit);
-                    db.add(checkingAccount);
+                    boolean isPresent = db.add(checkingAccount);
+                    if(isPresent == false){
+                        this.output("Warning some accounts already in database and have not been added\n");
+                    }
                 }
                 else{
                     String firstName = accountInputs[1];
@@ -548,10 +635,22 @@ public class UIController {
                     Double balance = Double.parseDouble(accountInputs[3]);
                     String[] date = accountInputs[4].split("/", -2);
 
+                    if(isValidInteger(date[0]) == false || isValidInteger(date[1]) == false || isValidInteger(date[2]) == false){
+                        this.output("wrong input integer format\n");
+                        return;
+                    }
+                    if(isValidInteger(accountInputs[5]) == false){
+                        this.output("wrong input integer format\n");
+                        return;
+                    }
+                    int withdrawals = Integer.parseInt(accountInputs[5]);
 
                     MoneyMarket moneyMarket = new MoneyMarket(firstName, lastName, balance, Integer.parseInt(date[0]),
-                            Integer.parseInt(date[1]), Integer.parseInt(date[2]));
-                    db.add(moneyMarket);
+                            Integer.parseInt(date[1]), Integer.parseInt(date[2]), withdrawals);
+                    boolean isPresent = db.add(moneyMarket);
+                    if(isPresent == false){
+                        this.output("Waring some accounts already in database and have not been added\n");
+                    }
                 }
             }
             this.output("Import completed\n");
@@ -593,9 +692,28 @@ public class UIController {
         int yearDate;
 
         if(isValidDate(date)){
-            monthDate = Integer.parseInt(date.substring(0,2));
-            dayDate = Integer.parseInt(date.substring(3,5));
-            yearDate = Integer.parseInt(date.substring(6,10));
+            if(date.substring(1,2).contains("/")){
+                monthDate = Integer.parseInt(date.substring(0,1));
+                if(date.substring(3,4).contains("/")){
+                    dayDate = Integer.parseInt(date.substring(2,3));
+                    yearDate = Integer.parseInt(date.substring(4, 8));
+                }
+                else{
+                    dayDate = Integer.parseInt(date.substring(2,4));
+                    yearDate = Integer.parseInt(date.substring(5, 9));
+                }
+
+            }
+            else if(date.substring(4,5).contains("/")){
+                monthDate = Integer.parseInt(date.substring(0,2));
+                dayDate = Integer.parseInt(date.substring(3,4));
+                yearDate = Integer.parseInt(date.substring(5,9));
+            }
+            else {
+                monthDate = Integer.parseInt(date.substring(0, 2));
+                dayDate = Integer.parseInt(date.substring(3, 5));
+                yearDate = Integer.parseInt(date.substring(6, 10));
+            }
         }
         else{
             this.output("Not a valid Date!\n");
@@ -702,8 +820,6 @@ public class UIController {
                     return;
 
                 }
-
-
             }
             else{
                 Savings savingsAccount = new Savings(fName, lName, amount, monthDate, dayDate, yearDate, true);
@@ -748,7 +864,6 @@ public class UIController {
                         )
                 );
                 return;
-
             }
             else{
                 // Output if failed to open from invalid account
