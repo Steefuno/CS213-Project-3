@@ -374,6 +374,9 @@ public class UIController {
         fileChooser.getExtensionFilters().add(extFilter);
 
         File database = fileChooser.showSaveDialog(primaryStage);
+        if(database == null){
+            return;
+        }
         saveTextToFile(db.printAccountsForExport(),database);
     }
     /**
@@ -545,6 +548,9 @@ public class UIController {
 
         fileChooser.setTitle("Open File");
         File database = fileChooser.showOpenDialog(primaryStage);
+        if(database == null){
+            return;
+        }
 
         try {
             File myObj = new File(database.getPath());
