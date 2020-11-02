@@ -55,6 +55,9 @@ public class UIController {
     private RadioButton moneyMarketRadioOc;
 
     @FXML
+    private ToggleGroup accountTypeOc;
+
+    @FXML
     private CheckBox directDepositBox;
 
     @FXML
