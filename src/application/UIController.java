@@ -668,14 +668,21 @@ public class UIController {
 
         String fName = firstNameOc.getText();
         String lName = lastNameOc.getText();
-        //checks if names are valid input
-        if(!checkNameInOC(fName)){
-            this.output("Name must be entered and cannot have numbers or symbols!\n");
+        if(fName.equals("")){
+            this.output("First name must be entered!\n");
             return;
         }
-
+        //checks if names are valid input
+        if(!checkNameInOC(fName)){
+            this.output("First name cannot have numbers or symbols!\n");
+            return;
+        }
+        if(lName.equals("")){
+            this.output("last name must be entered!\n");
+            return;
+        }
         if(!checkNameInOC(lName)){
-            this.output("Name must be entered and cannot have numbers or symbols!\n");
+            this.output("Last name cannot have numbers or symbols!\n");
             return;
         }
 
