@@ -105,6 +105,7 @@ public class UIController {
      */
     @FXML
     void checkingOcSelected(ActionEvent event) {
+        loyalCustomerBox.setSelected(false);
         loyalCustomerBox.setDisable(true);
         directDepositBox.setDisable(false);
     }
@@ -115,6 +116,7 @@ public class UIController {
      */
     @FXML
     void savingsOcSelected(ActionEvent event) {
+        directDepositBox.setSelected(false);
         directDepositBox.setDisable(true);
         loyalCustomerBox.setDisable(false);
     }
@@ -124,6 +126,8 @@ public class UIController {
      */
     @FXML
     void moneyMarkerOcSelected(ActionEvent event) {
+        loyalCustomerBox.setSelected(false);
+        directDepositBox.setSelected(false);
         directDepositBox.setDisable(true);
         loyalCustomerBox.setDisable(true);
     }
