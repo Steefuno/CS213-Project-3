@@ -30,6 +30,21 @@ public class MoneyMarket extends Account {
 	}
 	
 	/**
+	 * Constructs a money market account
+	 * @param _fname		the first name of the profile
+	 * @param _lname		the last name of the profile
+	 * @param _balance		the initial balance
+	 * @param _month		the month of the open date
+	 * @param _day			the day of the open date
+	 * @param _year			the year of the open date
+	 * @param _withdrawals	the initial number of withdrawals
+	 */
+	public MoneyMarket(String _fname, String _lname, double _balance, int _month, int _day, int _year, int _withdrawals) {
+		super(_fname, _lname, _balance, _month, _day, _year);
+		withdrawals = _withdrawals;
+	}
+	
+	/**
 	 * Constructs a temporary money market account used for comparisons
 	 * @param _fname	the first name of the profile
 	 * @param _lname	the last name of the profile
