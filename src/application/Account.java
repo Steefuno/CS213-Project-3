@@ -87,7 +87,7 @@ public abstract class Account {
      */
 
     public String toStringExport() {
-        String priceFormat = "$#.#";
+        String priceFormat = "#.#";
         DecimalFormat formattedPrice = new DecimalFormat(priceFormat);
         formattedPrice.setMinimumFractionDigits(2);
 
