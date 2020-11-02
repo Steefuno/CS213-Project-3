@@ -13,10 +13,8 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.util.Scanner;
 import java.text.DecimalFormat;
-import java.util.logging.Logger;
 
 
 // https://docs.oracle.com/javase/8/javafx/api/toc.htm
