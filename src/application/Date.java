@@ -61,7 +61,7 @@ public class Date implements Comparable<Date> {
 
     /**
      * Checks input of date for invalid dates
-     * @param date
+     * @param date string of date
      * @return boolean true if input is a valid date and format, otherwise false
      */
     private boolean isValid(String date) {
