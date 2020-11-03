@@ -369,9 +369,9 @@ public class AccountDatabase {
         AccountDatabase db = new AccountDatabase();
 
         // Tests if the prints are correct when the database is empty
-        db.printAccounts();
-        db.printByLastName();
-        //db.printByDateOpen();
+        System.out.println(db.printAccounts());
+        System.out.println(db.printByLastName());
+        System.out.println(db.printByDateOpen());
 
         // Tests adding different types of accounts
         if (db.add(new Checking("A", "A", 100, 2, 2, 2001, false)) == true) {
@@ -470,9 +470,9 @@ public class AccountDatabase {
         }
 
         // Tests if removed accounts are not outputted
-        db.printAccounts();
-        db.printByLastName();
-        //db.printByDateOpen();
+        System.out.println(db.printAccounts());
+        System.out.println(db.printByLastName());
+        System.out.println(db.printByDateOpen());
 
         // Tests if more than 5 accounts can be added
         for (int i = 1; i < 10; i++) {
@@ -480,8 +480,8 @@ public class AccountDatabase {
         }
 
         // Tests if more than 5 accounts can be outputted
-        db.printAccounts();
-        db.printByLastName();
-        //db.printByDateOpen();
+        System.out.println(db.printAccounts());
+        System.out.println(db.printByLastName());
+        System.out.println(db.printByDateOpen());
     }
 }

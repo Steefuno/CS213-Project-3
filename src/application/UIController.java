@@ -20,7 +20,7 @@ import java.text.DecimalFormat;
 // https://docs.oracle.com/javase/8/javafx/api/toc.htm
 public class UIController {
     private AccountDatabase db;
-    private String priceFormatString = "$ #.#";
+    private String priceFormatString = "$#.#";
     private DecimalFormat priceFormat;
 
     /**
@@ -272,6 +272,12 @@ public class UIController {
             this.output("Amount must be a double!\n");
             return;
         }
+        
+        // Make sure amount is positive
+        if (amount <= 0) {
+        	this.output("Amount must be greater than 0!");
+        	return;
+        }
 
         // Try to deposit
         boolean isDeposited = db.deposit(account, amount);
@@ -319,6 +325,12 @@ public class UIController {
         } catch (NumberFormatException e) {
             this.output("Amount must be a double!\n");
             return;
+        }
+        
+        // Make sure amount is positive
+        if (amount <= 0) {
+        	this.output("Amount must be greater than 0!");
+        	return;
         }
 
         // Try to withdraw
@@ -430,7 +442,7 @@ public class UIController {
      * @param event
      */
     @FXML
-    void closeAccount(ActionEvent event) { //TODO
+    void closeAccount(ActionEvent event) {
         String fName = firstNameOc.getText();
         String lName = lastNameOc.getText();
         if(fName.equals("")){
@@ -548,7 +560,7 @@ public class UIController {
      * @param event
      */
     @FXML
-    void importDataBase(ActionEvent event) { //TODO
+    void importDataBase(ActionEvent event) {
         boolean duplicateAccount = false;
         FileChooser fileChooser = new FileChooser();
         Stage primaryStage = new Stage();
@@ -570,37 +582,44 @@ public class UIController {
                 //checks if input length is right
                 if(accountInputs.length != 6){
                     this.output("wrong input size format\n");
+                    sc.close();
                     return;
                 }
                 //checks if format of inputs are right
                 if(accountInputs[0].length() > 1 || checkNameInOC(accountInputs[0]) == false){
                     this.output("wrong input length format\n");
+                    sc.close();
                     return;
                 }
 
                 if(checkNameInOC(accountInputs[1]) == false){
                     this.output("wrong input name format\n");
+                    sc.close();
                     return;
                 }
 
                 if(checkNameInOC(accountInputs[2]) == false){
                     this.output("wrong input name format\n");
+                    sc.close();
                     return;
                 }
 
                 if(isValidDouble(accountInputs[3]) == false){
                     this.output("wrong input double format\n");
+                    sc.close();
                     return;
                 }
 
                 if(isValidDate(accountInputs[4]) == false){
                     this.output("wrong input date format\n");
+                    sc.close();
                     return;
                 }
 
                 if(accountInputs[0].contains("S")){
                     if(isValidBoolean(accountInputs[5]) == false){
                         this.output("wrong input boolean format\n");
+                        sc.close();
                         return;
                     }
                     String firstName = accountInputs[1];
@@ -610,6 +629,7 @@ public class UIController {
 
                     if(isValidInteger(date[0]) == false || isValidInteger(date[1]) == false || isValidInteger(date[2]) == false){
                         this.output("wrong input integer format\n");
+                        sc.close();
                         return;
                     }
                     boolean loyalCustomer = Boolean.parseBoolean(accountInputs[5]);
@@ -624,6 +644,7 @@ public class UIController {
                 else if(accountInputs[0].contains("C")){
                     if(isValidBoolean(accountInputs[5]) == false){
                         this.output("wrong input boolean format\n");
+                        sc.close();
                         return;
                     }
                     String firstName = accountInputs[1];
@@ -632,6 +653,7 @@ public class UIController {
                     String[] date = accountInputs[4].split("/", -2);
                     if(isValidInteger(date[0]) == false || isValidInteger(date[1]) == false || isValidInteger(date[2]) == false){
                         this.output("wrong input integer format\n");
+                        sc.close();
                         return;
                     }
 
@@ -653,10 +675,12 @@ public class UIController {
 
                     if(isValidInteger(date[0]) == false || isValidInteger(date[1]) == false || isValidInteger(date[2]) == false){
                         this.output("wrong input integer format\n");
+                        sc.close();
                         return;
                     }
                     if(isValidInteger(accountInputs[5]) == false){
                         this.output("wrong input integer format\n");
+                        sc.close();
                         return;
                     }
                     int withdrawals = Integer.parseInt(accountInputs[5]);
@@ -672,6 +696,8 @@ public class UIController {
             if(duplicateAccount){
                 this.output("Warning some accounts already in database and have not been added\n");
             }
+            
+            sc.close();
             this.output("Import completed\n");
         } catch (FileNotFoundException e) {
             this.output("File not found\n");
@@ -684,7 +710,7 @@ public class UIController {
      * @param event
      */
     @FXML
-    void openAccount(ActionEvent event) { //TODO
+    void openAccount(ActionEvent event) {
 
         String fName = firstNameOc.getText();
         String lName = lastNameOc.getText();
