@@ -379,6 +379,11 @@ public class UIController {
         if(database == null){
             return;
         }
+
+        if(db.getsize() == 0){
+            this.output("Export Failed database empty\n");
+            return;
+        }
         saveTextToFile(db.printAccountsForExport(),database);
     }
     /**
@@ -544,7 +549,7 @@ public class UIController {
      */
     @FXML
     void importDataBase(ActionEvent event) { //TODO
-        int i = 0;
+        boolean duplicateAccount = false;
         FileChooser fileChooser = new FileChooser();
         Stage primaryStage = new Stage();
 
@@ -589,8 +594,6 @@ public class UIController {
                 }
 
                 if(isValidDate(accountInputs[4]) == false){
-                    System.out.println(i);
-                    i++;
                     this.output("wrong input date format\n");
                     return;
                 }
@@ -615,7 +618,7 @@ public class UIController {
                     Savings savingsAccount = new Savings(firstName, lastName, balance, Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), loyalCustomer);
                     boolean isPresent = db.add(savingsAccount);
                     if(isPresent == false){
-                        this.output("Warning some accounts already in database and have not been added\n");
+                        duplicateAccount = true;
                     }
                 }
                 else if(accountInputs[0].contains("C")){
@@ -639,7 +642,7 @@ public class UIController {
                             Integer.parseInt(date[1]), Integer.parseInt(date[2]), directDeposit);
                     boolean isPresent = db.add(checkingAccount);
                     if(isPresent == false){
-                        this.output("Warning some accounts already in database and have not been added\n");
+                        duplicateAccount = true;
                     }
                 }
                 else{
@@ -662,9 +665,12 @@ public class UIController {
                             Integer.parseInt(date[1]), Integer.parseInt(date[2]), withdrawals);
                     boolean isPresent = db.add(moneyMarket);
                     if(isPresent == false){
-                        this.output("Waring some accounts already in database and have not been added\n");
+                        duplicateAccount = true;
                     }
                 }
+            }
+            if(duplicateAccount){
+                this.output("Warning some accounts already in database and have not been added\n");
             }
             this.output("Import completed\n");
         } catch (FileNotFoundException e) {
